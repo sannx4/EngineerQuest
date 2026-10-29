@@ -40,7 +40,7 @@ or remote CI/PR completed. No product authentication or production deployment is
   succeeds, 570 modules, one Android Hermes bundle. This is not a native build/device run.
 - Temporary defects were inserted and removed: Ruff exit 1; mypy exit 1; pytest exit 1;
   ESLint exit 1; TypeScript exit 2; Prettier exit 1. Each expected failure was observed.
-- Clean-clone bootstrap: pending final verification before push.
+- Clean-clone bootstrap: `git clone --no-hardlinks /workspace/EngineerQuest /tmp/engineerquest-clean-batch001`, then `make bootstrap check doctor` in that clone: passed, including all 5 pytest tests. This validates a clean local Git checkout, not restoration into a newly published cloud runtime.
 
 ## Failures diagnosed and corrected
 
@@ -71,3 +71,7 @@ Local-only credentials and unauthenticated health endpoints are development scaf
 No production security audit, load test, native app verification or deployment was performed.
 Remove the batch by reverting its feature changes and stopping the engineerquest Compose
 project. `down -v` destroys local data; never use against existing valuable databases.
+
+## Saved environment configuration
+
+Saved install_script (`make bootstrap` in /workspace/EngineerQuest) and start_skill (Compose cloud startup, readiness smoke, mobile instructions and isolation guidance). The api.github.com network addition is saved for review. Draft persistence is confirmed; publication and fresh-runtime restoration have not been performed.
