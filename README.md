@@ -15,5 +15,5 @@ make smoke
 ```
 
 See [onboarding](docs/runbooks/onboarding.md), [PRD](docs/product/PRD.md), and
-[batch evidence](docs/evidence/batch-001.md). Mobile and admin are placeholders;
+[batch evidence](docs/evidence/batch-001.md). Mobile has a minimal Expo shell; admin is a placeholder;
 no learner authentication or learning features are implemented yet.

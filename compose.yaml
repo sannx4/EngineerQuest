@@ -1,0 +1,76 @@
+name: engineerquest
+services:
+  postgres:
+    image: postgres:16.8-alpine
+    environment:
+      POSTGRES_USER: engineerquest
+      POSTGRES_PASSWORD: local-development-only
+      POSTGRES_DB: engineerquest
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/001-init.sql:ro
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U engineerquest -d engineerquest"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  redis:
+    image: redis:7.4.2-alpine
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  mail:
+    image: axllent/mailpit:v1.24.1
+    ports: ["127.0.0.1:8025:8025"]
+  collector:
+    image: otel/opentelemetry-collector:0.123.0
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      ["./infra/observability/collector.yaml:/etc/otelcol/config.yaml:ro"]
+    healthcheck:
+      test: [CMD, /otelcol, validate, "--config=/etc/otelcol/config.yaml"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://engineerquest:local-development-only@postgres:5432/engineerquest
+      REDIS_URL: redis://redis:6379/0
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          CMD,
+          python,
+          -c,
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready')",
+        ]
+      interval: 3s
+      timeout: 6s
+      retries: 20
+  worker:
+    build: .
+    command: [python, services/worker/main.py]
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          CMD,
+          python,
+          -c,
+          "import redis; r=redis.Redis(host='redis'); assert r.ttl('engineerquest:worker:heartbeat') > 0",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  postgres-data:

@@ -1,0 +1,22 @@
+name: foundation
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.23"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: make bootstrap check doctor
+      - run: CI=1 npm exec -w @engineerquest/mobile -- expo export --platform android --output-dir /tmp/engineerquest-mobile-export
+      - run: docker compose up --build --wait --wait-timeout 180
+      - run: make smoke
+      - if: always()
+        run: docker compose logs --no-color && docker compose down -v

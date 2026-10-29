@@ -1,0 +1,22 @@
+{
+  "name": "engineerquest",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "lint": "eslint packages/contracts/src apps/mobile",
+    "typecheck": "tsc --noEmit -p packages/contracts/tsconfig.json && tsc --noEmit -p apps/mobile/tsconfig.json"
+  },
+  "devDependencies": {
+    "prettier": "3.5.3",
+    "eslint": "9.25.1",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.31.1",
+    "@types/react": "19.1.10"
+  }
+}

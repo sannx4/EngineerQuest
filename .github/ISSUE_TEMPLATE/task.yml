@@ -1,0 +1,19 @@
+name: Roadmap task
+description: A scoped roadmap delivery
+body:
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and roadmap day
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Measurable acceptance criteria
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Tests, risks and rollback

@@ -1,0 +1,28 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: Python lint
+        entry: uv run --frozen ruff check
+        language: system
+        types: [python]
+      - id: mypy
+        name: Python types
+        entry: uv run --frozen mypy
+        language: system
+        pass_filenames: false
+      - id: eslint
+        name: TypeScript lint
+        entry: npm run lint
+        language: system
+        pass_filenames: false
+      - id: typescript
+        name: TypeScript types
+        entry: npm run typecheck
+        language: system
+        pass_filenames: false
+      - id: prettier
+        name: Format
+        entry: npm run format:check
+        language: system
+        pass_filenames: false

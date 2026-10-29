@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  />
+  <title>EngineerQuest journey prototype</title>
+  <style>
+    body {
+      font: 1.1rem system-ui;
+      max-width: 42rem;
+      margin: 3rem auto;
+      padding: 1rem;
+    }
+    button,
+    a {
+      margin: 0.5rem;
+      padding: 0.7rem;
+    }
+    section {
+      display: none;
+    }
+    section:target {
+      display: block;
+    }
+    body:has(section:target:not(#welcome)) #welcome {
+      display: none;
+    }
+    #welcome {
+      display: block;
+    }
+  </style>
+  <h1>EngineerQuest</h1>
+  <p>Prototype only. No data is stored or sent.</p>
+  <section id="welcome">
+    <h2>Welcome</h2>
+    <a href="#signup">Create account</a>
+  </section>
+  <section id="signup">
+    <h2>Create account</h2>
+    <label>Email <input type="email" autocomplete="email" /></label>
+    <p>
+      <a href="#class">Continue (simulated)</a><a href="#welcome">Cancel</a>
+    </p>
+  </section>
+  <section id="class">
+    <h2>Choose your path</h2>
+    <fieldset>
+      <legend>Engineer class</legend>
+      <label><input type="radio" name="class" checked />Backend engineer</label
+      ><label><input type="radio" name="class" />Frontend engineer</label>
+    </fieldset>
+    <a href="#lesson">Start first lesson</a>
+  </section>
+  <section id="lesson">
+    <h2>Git: inspect your changes</h2>
+    <p>Which command shows unstaged changes?</p>
+    <a href="#success">git diff</a><a href="#retry">git init</a
+    ><a href="#offline">Simulate offline</a><a href="#dashboard">Exit</a>
+  </section>
+  <section id="retry">
+    <h2>Try again</h2>
+    <p>
+      git init creates a repository. Choose a command that compares changes.
+    </p>
+    <a href="#lesson">Retry lesson</a>
+  </section>
+  <section id="success">
+    <h2>Lesson completed</h2>
+    <p>git diff compares unstaged changes to the index.</p>
+    <a href="#dashboard">View progress</a>
+  </section>
+  <section id="offline">
+    <h2>You are offline</h2>
+    <p>
+      Keep your answer; reconnect before submitting. Prototype does not cache
+      answers.
+    </p>
+    <a href="#lesson">Retry connection</a>
+  </section>
+  <section id="dashboard">
+    <h2>Your dashboard</h2>
+    <a href="#lesson">Practice</a><a href="#streak">Streak recovery</a
+    ><a href="#subscription">Subscription</a><a href="#settings">Settings</a>
+  </section>
+  <section id="streak">
+    <h2>Streak recovery</h2>
+    <p>Future feature: explain eligible recovery in learner timezone.</p>
+    <a href="#lesson">Practice</a><a href="#dashboard">Back</a>
+  </section>
+  <section id="subscription">
+    <h2>Subscription concept</h2>
+    <p>
+      Future feature. Price, renewal and cancellation terms must be supplied
+      before payment.
+    </p>
+    <a href="#dashboard">Cancel checkout</a>
+  </section>
+  <section id="settings">
+    <h2>Settings</h2>
+    <a href="#delete">Delete account</a><a href="#dashboard">Back</a>
+  </section>
+  <section id="delete">
+    <h2>Confirm deletion</h2>
+    <p>
+      Real flow requires reauthentication and explains retention. This only
+      simulates sign-out.
+    </p>
+    <a href="#welcome">Confirm simulated deletion</a
+    ><a href="#settings">Cancel</a>
+  </section>
+</html>
